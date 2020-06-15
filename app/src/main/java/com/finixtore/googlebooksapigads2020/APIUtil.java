@@ -8,22 +8,31 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.file.OpenOption;
+import java.security.Key;
 import java.util.Scanner;
 
 public class APIUtil {
+    private static final String QUERY_PARAMETER_KEY ="q" ;
+    private static final String KEY ="key" ;
+    private static final String API_KEY ="AIzaSyBovPeEGari6pi8oGj0l52U5XVtcq6K8jY" ;
+
     private APIUtil() {
     }
 
     public static final String BASE_API_URI = "https://www.googleapis.com/books/v1/volumes";
 
     public static URL buildURL(String title) {
-        String fullUrl = BASE_API_URI + "?q=" + title;
+
         URL url = null;
+        Uri uri=Uri.parse(BASE_API_URI).buildUpon()
+                .appendQueryParameter(QUERY_PARAMETER_KEY,title)
+                .appendQueryParameter(KEY,API_KEY)
+                .build();
 
         try {
 
 
-            url = new URL(fullUrl);
+            url = new URL(uri.toString());
         } catch (Exception e) {
             e.printStackTrace();
         }
