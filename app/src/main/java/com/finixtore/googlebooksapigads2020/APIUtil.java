@@ -3,12 +3,15 @@ package com.finixtore.googlebooksapigads2020;
 import android.net.Uri;
 import android.util.Log;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.Authenticator;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.nio.file.OpenOption;
-import java.security.Key;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class APIUtil {
@@ -64,5 +67,45 @@ public class APIUtil {
         finally {
             connection.disconnect();
         }
+    }
+
+    public static ArrayList<Book> getBooksFromJson(String json){
+
+        final  String ID="id";
+        final String TITLE="title";
+        final String SUBTITLE="subtitle";
+        final String AUTHORS="authors";
+        final String PUBLISHER="publisher";
+        final String PUBLISHERDATE="publishedDate";
+        final String ITEMS="items";
+        final String VOLUMEINFO="volumeInfo";
+        ArrayList<Book> bookFromJson =new ArrayList<>();
+        try {
+
+            JSONObject jsonBooks=new JSONObject(json);
+            JSONArray arrayBooks= jsonBooks.getJSONArray(ITEMS);
+            int numOfBooks=arrayBooks.length();
+            for(int i=0;i<numOfBooks;i++){
+                JSONObject bookJson=arrayBooks.getJSONObject(i);
+                JSONObject volumeInfo=bookJson.getJSONObject(VOLUMEINFO);
+                int numOfAuthors=volumeInfo.getJSONArray(AUTHORS).length();
+                String[] authors=new String[numOfAuthors];
+                for (int j=0;j<numOfAuthors;j++){
+                    authors[j]=volumeInfo.getJSONArray(AUTHORS).get(j).toString();
+                }
+
+                Book book=new Book((String) bookJson.get(ID),volumeInfo.getString(TITLE),
+                        (volumeInfo.isNull(SUBTITLE)?"":volumeInfo.getString(SUBTITLE)),
+                        authors,volumeInfo.getString(PUBLISHER),volumeInfo.getString(PUBLISHERDATE));
+
+                bookFromJson.add(book);
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+
+        return bookFromJson;
     }
 }
