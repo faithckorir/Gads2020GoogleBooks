@@ -2,31 +2,36 @@ package com.finixtore.googlebooksapigads2020;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.text.TextUtils;
 
 public class Book implements Parcelable {
 public  String id;
 public  String title;
 public  String subtitle;
-public  String[] authors;
+public  String authors;
 public  String publisher;
 public  String publishedDate;
+public  String description;
 
-    public Book(String id, String title, String subtitle, String[] authors, String publisher, String publishedDate) {
+    public Book(String id, String title, String subtitle, String[] authors, String publisher, String publishedDate,String description) {
         this.id = id;
         this.title = title;
         this.subtitle = subtitle;
-        this.authors = authors;
+        this.authors = TextUtils.join(",",authors);
         this.publisher = publisher;
         this.publishedDate = publishedDate;
+        this.description=description;
     }
+
 
     protected Book(Parcel in) {
         id = in.readString();
         title = in.readString();
         subtitle = in.readString();
-        authors = in.createStringArray();
+        authors = in.readString();
         publisher = in.readString();
         publishedDate = in.readString();
+        description = in.readString();
     }
 
     public static final Creator<Book> CREATOR = new Creator<Book>() {
@@ -51,8 +56,9 @@ public  String publishedDate;
         dest.writeString(id);
         dest.writeString(title);
         dest.writeString(subtitle);
-        dest.writeStringArray(authors);
+        dest.writeString(authors);
         dest.writeString(publisher);
         dest.writeString(publishedDate);
+        dest.writeString(description);
     }
 }
