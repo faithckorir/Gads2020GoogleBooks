@@ -1,11 +1,14 @@
 package com.finixtore.googlebooksapigads2020;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -13,17 +16,20 @@ import java.net.URL;
 import java.util.ArrayList;
 
 public class BooksListActivity extends AppCompatActivity {
-private TextView mTextView;
+private RecyclerView mRecyclerView;
 private TextView mTvError;
 private ProgressBar mProgressBar;
+private BooksAdapter mBooksAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_bookslist);
         mProgressBar=findViewById(R.id.pb);
-        mTextView=findViewById(R.id.tv_response);
+        mRecyclerView=findViewById(R.id.rv_books);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this,LinearLayoutManager.VERTICAL,false));
         mTvError=findViewById(R.id.textView_error);
         URL url=APIUtil.buildURL("cooking");
+
         new BooksQueryTask().execute(url);
 
     }
@@ -54,25 +60,29 @@ private ProgressBar mProgressBar;
         protected void onPostExecute(String s) {
             mProgressBar.setVisibility(View.GONE);
             if (s==null){
-                mTextView.setVisibility(View.INVISIBLE);
+                mRecyclerView.setVisibility(View.INVISIBLE);
                 mTvError.setVisibility(View.VISIBLE);
             }else{
+                mRecyclerView.setVisibility(View.VISIBLE);
                 mTvError.setVisibility(
                         View.INVISIBLE
+
                 );
-            mTextView.setText(s);}
-
-            ArrayList<Book> books=APIUtil.getBooksFromJson(s);
-
-            String resultString="";
-            for(Book book:books){
-                resultString=resultString+book.title+"\n"+book.publishedDate +"\n\n";
-
+           // mTextView.setText(s);
             }
 
-            Log.d( "onPostExecute: ",resultString);
-            mTextView.setText(resultString);
+            ArrayList<Book> books=APIUtil.getBooksFromJson(s);
+            /*String[] a=new String[]{"a1","a2"};
+            Book book1=new Book("1","fay","cook",new String[]{"a1","a2"},"korir","12.12.2019");
+                books.add(book1);*/
+            String resultString="";
 
+
+            Log.d( "onPostExecute: ",resultString);
+            mBooksAdapter=new BooksAdapter(books);
+            mRecyclerView.setAdapter(mBooksAdapter);
+
+            Log.d( "onPostExecute: ",String.valueOf(books.size()));
         }
     }
 }
