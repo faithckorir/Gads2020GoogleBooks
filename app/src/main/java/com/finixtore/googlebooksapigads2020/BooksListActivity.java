@@ -1,21 +1,25 @@
 package com.finixtore.googlebooksapigads2020;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import java.net.URL;
 import java.util.ArrayList;
 
-public class BooksListActivity extends AppCompatActivity {
+public class BooksListActivity extends AppCompatActivity implements SearchView.OnQueryTextListener {
 private RecyclerView mRecyclerView;
 private TextView mTvError;
 private ProgressBar mProgressBar;
@@ -32,6 +36,24 @@ private BooksAdapter mBooksAdapter;
 
         new BooksQueryTask().execute(url);
 
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+
+        try {
+            URL queryUrl=APIUtil.buildURL(query);
+            new BooksQueryTask().execute(queryUrl);
+
+        }catch (Exception e){
+            Log.d( "onQueryTextSubmit: ",e.getMessage());
+        }
+        return  false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        return false;
     }
 
 
@@ -84,5 +106,14 @@ private BooksAdapter mBooksAdapter;
 
             Log.d( "onPostExecute: ",String.valueOf(books.size()));
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.books_menu,menu);
+        final MenuItem searchItem=menu.findItem(R.id.action_search);
+        final SearchView searchView= (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(this);
+        return true;
     }
 }

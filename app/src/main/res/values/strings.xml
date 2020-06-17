@@ -5,4 +5,5 @@
     <string name="authors">Authors</string>
     <string name="publisherdate">publisherDate</string>
     <string name="publisher">Publisher</string>
+    <string name="search">Search</string>
 </resources>
