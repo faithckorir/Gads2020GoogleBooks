@@ -1,8 +1,10 @@
 package com.finixtore.googlebooksapigads2020;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -37,12 +39,8 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
     public int getItemCount() {
         return mBooks.size();
     }
-//1st create a viewholder class.
-    //Make sure you add a recyclerview dependency first in the
-// app gradle file e.g  implementation 'androidx.recyclerview:recyclerview:1.1.0'
 
-    //the viewholder holds the single item layout for the recyclerview
-    public class BookViewHolder extends RecyclerView.ViewHolder {
+    public class BookViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         final TextView mTitle;
         TextView mPublishers;
         TextView mDate;
@@ -54,6 +52,7 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
             mPublishers = itemView.findViewById(R.id.tv_publisher);
             mDate = itemView.findViewById(R.id.tv_publisherDate);
             mAuthors = itemView.findViewById(R.id.tv_authors);
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Book book) {
@@ -76,5 +75,14 @@ public class BooksAdapter extends RecyclerView.Adapter<BooksAdapter.BookViewHold
         }
 
 
+        @Override
+        public void onClick(View v) {
+           int position= getAdapterPosition();
+           Book selectedBook=mBooks.get(position);
+            Intent i=new Intent(v.getContext(),BookDetailActivity.class);
+            i.putExtra("Book",selectedBook);
+            v.getContext().startActivity(i);
+
+        }
     }
 }
