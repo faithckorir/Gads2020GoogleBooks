@@ -50,7 +50,7 @@
         android:layout_marginTop="16dp"
         app:layout_constraintStart_toStartOf="@+id/tv_subtitle"
         app:layout_constraintTop_toBottomOf="@+id/tv_subtitle"
-        app:srcCompat="@drawable/ic_menu_book_black_18dp" />
+        android:imageUrl="@{Book.thumbnail}" />
 
     <TextView
         android:id="@+id/tv_author"

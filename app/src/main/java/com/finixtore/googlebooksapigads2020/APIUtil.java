@@ -1,6 +1,7 @@
 package com.finixtore.googlebooksapigads2020;
 
 import android.net.Uri;
+import android.util.JsonReader;
 import android.util.Log;
 
 import org.json.JSONArray;
@@ -80,6 +81,8 @@ public class APIUtil {
         final String ITEMS="items";
         final String VOLUMEINFO="volumeInfo";
         final String DESCRIPTION="description";
+        final String IMAGELINKS="imageLinks";
+        final String THUMBNAILS="thumbnail";
         ArrayList<Book> bookFromJson =new ArrayList<>();
         try {
 
@@ -89,6 +92,7 @@ public class APIUtil {
             for(int i=0;i<numOfBooks;i++){
                 JSONObject bookJson=arrayBooks.getJSONObject(i);
                 JSONObject volumeInfo=bookJson.getJSONObject(VOLUMEINFO);
+                JSONObject imageLinksJson=volumeInfo.getJSONObject(IMAGELINKS);
                 int numOfAuthors=volumeInfo.getJSONArray(AUTHORS).length();
                 String[] authors=new String[numOfAuthors];
                 for (int j=0;j<numOfAuthors;j++){
@@ -98,7 +102,7 @@ public class APIUtil {
                 Book book=new Book((String) bookJson.get(ID),volumeInfo.getString(TITLE),
                         (volumeInfo.isNull(SUBTITLE)?"":volumeInfo.getString(SUBTITLE)),
                         authors,volumeInfo.getString(PUBLISHER),volumeInfo.getString(PUBLISHERDATE),
-                        volumeInfo.getString(DESCRIPTION));
+                        volumeInfo.getString(DESCRIPTION),imageLinksJson.getString(THUMBNAILS));
 
                 bookFromJson.add(book);
             }
