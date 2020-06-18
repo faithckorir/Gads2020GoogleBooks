@@ -15,9 +15,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import static android.content.ContentValues.TAG;
+
 public class APIUtil {
     private static final String QUERY_PARAMETER_KEY ="q" ;
     private static final String KEY ="key" ;
+    private static final String TITLE ="intitle:" ;
+    private static final String AUTHOR ="inauthor:" ;
+    private static final String PUBLISHER ="inpublisher:" ;
+    private static final String ISBN ="isbn:" ;
     private static final String API_KEY ="AIzaSyBovPeEGari6pi8oGj0l52U5XVtcq6K8jY" ;
 
     private APIUtil() {
@@ -113,5 +119,28 @@ public class APIUtil {
 
 
         return bookFromJson;
+    }
+
+    public  static URL buildUrl(String title,String author,String publisher,String isbn){
+    URL url=null;
+    StringBuilder sb=new StringBuilder();
+    if(!title.isEmpty()) sb.append(TITLE+title+"+");
+    if(!author.isEmpty()) sb.append(AUTHOR+title+"+");
+    if(!publisher.isEmpty()) sb.append(PUBLISHER+title+"+");
+    if(!isbn.isEmpty()) sb.append(ISBN+title+"+");
+    sb.setLength(sb.length()-1);
+    String query=sb.toString();
+    Uri uri=Uri.parse(BASE_API_URI).buildUpon()
+            .appendQueryParameter(QUERY_PARAMETER_KEY,query)
+            .appendQueryParameter(KEY,API_KEY).build();
+    try{
+        url=new URL(uri.toString());
+    }catch (Exception e){
+        Log.d( "buildUrl: Error",e.getMessage());
+    }
+
+    return  url;
+
+
     }
 }

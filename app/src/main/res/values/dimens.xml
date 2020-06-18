@@ -2,4 +2,5 @@
 <resources>
     <dimen name="title_textsize">20sp</dimen>
     <dimen name="pdatepadding">8dp</dimen>
+    <dimen name="search_button_text_size">18sp</dimen>
 </resources>

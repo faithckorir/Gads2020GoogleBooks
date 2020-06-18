@@ -1,10 +1,12 @@
 package com.finixtore.googlebooksapigads2020;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -78,6 +80,7 @@ private BooksAdapter mBooksAdapter;
             return  result;
         }
 
+
         @Override
         protected void onPostExecute(String s) {
             mProgressBar.setVisibility(View.GONE);
@@ -115,5 +118,21 @@ private BooksAdapter mBooksAdapter;
         final SearchView searchView= (SearchView) searchItem.getActionView();
         searchView.setOnQueryTextListener(this);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.advanced_search:
+
+                Intent intent= new Intent(this,SearchActivity.class);
+                startActivity(intent);
+                return  true;
+                default:
+                    return super.onOptionsItemSelected(item);
+        }
+
+
+
     }
 }

@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".SearchActivity">
+
+
+    <EditText
+        android:id="@+id/et_title"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginRight="16dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/title"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/et_author"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/authors"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="@+id/et_title"
+        app:layout_constraintStart_toStartOf="@+id/et_title"
+        app:layout_constraintTop_toBottomOf="@+id/et_title" />
+
+    <EditText
+        android:id="@+id/et_publisher"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/publisher"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="@+id/et_author"
+        app:layout_constraintStart_toStartOf="@+id/et_author"
+        app:layout_constraintTop_toBottomOf="@+id/et_author" />
+
+    <EditText
+        android:id="@+id/et_isbn"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:ems="10"
+        android:gravity="start|top"
+        android:hint="@string/isbn"
+        android:inputType="textMultiLine"
+        app:layout_constraintEnd_toEndOf="@+id/et_publisher"
+        app:layout_constraintStart_toStartOf="@+id/et_publisher"
+        app:layout_constraintTop_toBottomOf="@+id/et_publisher" />
+
+    <Button
+        android:textColor="#fff"
+        android:id="@+id/btn_search"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/search"
+
+        android:background="@drawable/search_button_shape"
+        android:textSize="@dimen/search_button_text_size"
+        app:layout_constraintEnd_toEndOf="@+id/et_isbn"
+        app:layout_constraintStart_toStartOf="@+id/et_isbn"
+        app:layout_constraintTop_toBottomOf="@+id/et_isbn" />
+</androidx.constraintlayout.widget.ConstraintLayout>
